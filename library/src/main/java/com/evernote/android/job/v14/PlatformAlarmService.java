@@ -15,15 +15,14 @@
  */
 package com.evernote.android.job.v14;
 
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.JobIntentService;
 
-import com.evernote.android.job.JobIdsInternal;
 import com.evernote.android.job.JobProxy;
 import com.evernote.android.job.JobRequest;
 import com.evernote.android.job.util.JobCat;
@@ -31,22 +30,26 @@ import com.evernote.android.job.util.JobCat;
 /**
  * @author rwondratschek
  */
-public final class PlatformAlarmService extends JobIntentService {
+public final class PlatformAlarmService extends IntentService {
 
     private static final JobCat CAT = new JobCat("PlatformAlarmService");
 
+    public PlatformAlarmService() {
+        super("PlatformAlarmService");
+    }
+
     public static void start(Context context, int jobId, @Nullable Bundle transientExtras) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(context, PlatformAlarmService.class);
         intent.putExtra(PlatformAlarmReceiver.EXTRA_JOB_ID, jobId);
         if (transientExtras != null) {
             intent.putExtra(PlatformAlarmReceiver.EXTRA_TRANSIENT_EXTRAS, transientExtras);
         }
 
-        enqueueWork(context, PlatformAlarmService.class, JobIdsInternal.JOB_ID_PLATFORM_ALARM_SERVICE, intent);
+        context.startService(intent);
     }
 
     @Override
-    protected void onHandleWork(@NonNull Intent intent) {
+    protected void onHandleIntent(@Nullable Intent intent) {
         runJob(intent, this, CAT);
     }
 

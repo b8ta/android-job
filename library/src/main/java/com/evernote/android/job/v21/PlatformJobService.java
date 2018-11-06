@@ -57,13 +57,9 @@ public class PlatformJobService extends JobService {
 
                     if (request.isTransient()) {
                         if (TransientBundleCompat.startWithTransientBundle(PlatformJobService.this, request)) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                // should only happen during testing if an API is disabled
-                                CAT.d("PendingIntent for transient bundle is not null although running on O, using compat mode, request %s", request);
-                            }
                             return;
 
-                        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                        } else {
                             CAT.d("PendingIntent for transient job %s expired", request);
                             return;
                         }
@@ -98,12 +94,7 @@ public class PlatformJobService extends JobService {
         return false;
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
     private Bundle getTransientBundle(JobParameters params) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return params.getTransientExtras();
-        } else {
-            return Bundle.EMPTY;
-        }
+        return Bundle.EMPTY;
     }
 }

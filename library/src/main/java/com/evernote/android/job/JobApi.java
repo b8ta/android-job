@@ -33,8 +33,6 @@ import com.evernote.android.job.v14.PlatformAlarmServiceExact;
 import com.evernote.android.job.v19.JobProxy19;
 import com.evernote.android.job.v21.JobProxy21;
 import com.evernote.android.job.v21.PlatformJobService;
-import com.evernote.android.job.v24.JobProxy24;
-import com.evernote.android.job.v26.JobProxy26;
 import com.google.android.gms.gcm.GcmNetworkManager;
 
 import java.util.List;
@@ -45,14 +43,6 @@ import java.util.List;
  * @author rwondratschek
  */
 public enum JobApi {
-    /**
-     * Uses the {@link JobScheduler} for scheduling jobs.
-     */
-    V_26(true, false, true),
-    /**
-     * Uses the {@link JobScheduler} for scheduling jobs.
-     */
-    V_24(true, false, false),
     /**
      * Uses the {@link JobScheduler} for scheduling jobs.
      */
@@ -98,10 +88,6 @@ public enum JobApi {
 
     public boolean isSupported(Context context) {
         switch (this) {
-            case V_26:
-                return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && isServiceEnabled(context, PlatformJobService.class);
-            case V_24:
-                return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isServiceEnabledAndHasPermission(context, PlatformJobService.class, JOB_SCHEDULER_PERMISSION);
             case V_21:
                 return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && isServiceEnabledAndHasPermission(context, PlatformJobService.class, JOB_SCHEDULER_PERMISSION);
             case V_19:
@@ -121,10 +107,6 @@ public enum JobApi {
     @NonNull
     private JobProxy createProxy(Context context) {
         switch (this) {
-            case V_26:
-                return new JobProxy26(context);
-            case V_24:
-                return new JobProxy24(context);
             case V_21:
                 return new JobProxy21(context);
             case V_19:
@@ -194,11 +176,7 @@ public enum JobApi {
 
     @NonNull
     public static JobApi getDefault(Context context) {
-        if (V_26.isSupported(context) && JobConfig.isApiEnabled(V_26)) {
-            return V_26;
-        } else if (V_24.isSupported(context) && JobConfig.isApiEnabled(V_24)) {
-            return V_24;
-        } else if (V_21.isSupported(context) && JobConfig.isApiEnabled(V_21)) {
+        if (V_21.isSupported(context) && JobConfig.isApiEnabled(V_21)) {
             return V_21;
         } else if (GCM.isSupported(context) && JobConfig.isApiEnabled(GCM)) {
             return GCM;

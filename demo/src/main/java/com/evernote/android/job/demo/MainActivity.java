@@ -44,10 +44,10 @@ public class MainActivity extends Activity {
             mLastJobId = savedInstanceState.getInt(LAST_JOB_ID, 0);
         }
 
-        CompoundButton enableGcm = findViewById(R.id.enable_gcm);
-        mRequiresCharging = findViewById(R.id.check_requires_charging);
-        mRequiresDeviceIdle = findViewById(R.id.check_requires_device_idle);
-        mNetworkTypeSpinner = findViewById(R.id.spinner_network_type);
+        CompoundButton enableGcm = (CompoundButton)findViewById(R.id.enable_gcm);
+        mRequiresCharging = (CompoundButton)findViewById(R.id.check_requires_charging);
+        mRequiresDeviceIdle = (CompoundButton)findViewById(R.id.check_requires_device_idle);
+        mNetworkTypeSpinner = (Spinner)findViewById(R.id.spinner_network_type);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getNetworkTypesAsString());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -79,16 +79,6 @@ public class MainActivity extends Activity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        if (JobApi.V_26.isSupported(this)) {
-            menu.findItem(R.id.action_force_26).setChecked(false);
-        } else {
-            menu.findItem(R.id.action_force_26).setVisible(false);
-        }
-        if (JobApi.V_24.isSupported(this)) {
-            menu.findItem(R.id.action_force_24).setChecked(false);
-        } else {
-            menu.findItem(R.id.action_force_24).setVisible(false);
-        }
         if (JobApi.V_21.isSupported(this)) {
             menu.findItem(R.id.action_force_21).setChecked(false);
         } else {
@@ -111,12 +101,6 @@ public class MainActivity extends Activity {
         }
 
         switch (JobApi.getDefault(this)) {
-            case V_26:
-                menu.findItem(R.id.action_force_26).setChecked(true);
-                break;
-            case V_24:
-                menu.findItem(R.id.action_force_24).setChecked(true);
-                break;
             case V_21:
                 menu.findItem(R.id.action_force_21).setChecked(true);
                 break;
@@ -139,12 +123,6 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_force_26:
-                JobConfig.forceApi(JobApi.V_26);
-                return true;
-            case R.id.action_force_24:
-                JobConfig.forceApi(JobApi.V_24);
-                return true;
             case R.id.action_force_21:
                 JobConfig.forceApi(JobApi.V_21);
                 return true;

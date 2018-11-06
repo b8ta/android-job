@@ -7,9 +7,6 @@ archivesBaseName = 'android-job'
 dependencies {
     compileOnly "com.google.android.gms:play-services-gcm:$playServicesVersion"
 
-    //noinspection GradleCompatible,GradleDependency
-    api "com.android.support:support-compat:$supportLibVersion"
-
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test:rules:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -17,7 +14,6 @@ dependencies {
     androidTestImplementation "com.google.android.gms:play-services-gcm:$playServicesVersion"
 
     androidTestImplementation "com.facebook.stetho:stetho:$stethoVersion"
-    androidTestImplementation "com.android.support:support-v4:$supportLibVersion"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"

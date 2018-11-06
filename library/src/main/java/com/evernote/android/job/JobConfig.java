@@ -15,7 +15,6 @@
  */
 package com.evernote.android.job;
 
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -133,7 +132,7 @@ public final class JobConfig {
      * are allowed. The default value is {@code false}.
      */
     public static boolean isAllowSmallerIntervalsForMarshmallow() {
-        return allowSmallerIntervals && Build.VERSION.SDK_INT < Build.VERSION_CODES.N;
+        return allowSmallerIntervals;
     }
 
     /**
@@ -144,9 +143,6 @@ public final class JobConfig {
      *                              for periodic jobs are allowed. The default value is {@code false}.
      */
     public static void setAllowSmallerIntervalsForMarshmallow(boolean allowSmallerIntervals) {
-        if (allowSmallerIntervals && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            throw new IllegalStateException("This method is only allowed to call on Android M or earlier");
-        }
         JobConfig.allowSmallerIntervals = allowSmallerIntervals;
     }
 
