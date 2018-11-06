@@ -317,6 +317,15 @@ public abstract class Job {
         }
     }
 
+    /**
+     * @return Extra arguments for this {@link Job}. Never returns {@code null}.
+     */
+    public final PersistableBundleCompat getExtras() {
+        synchronized (mMonitor) {
+            return mParams.getExtras();
+        }
+    }
+
     /*package*/ final long getFinishedTimeStamp() {
         synchronized (mMonitor) {
             return mFinishedTimeStamp;
